@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feed-service
+  namespace: linkedin-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feed-service
+  template:
+    metadata:
+      labels:
+        app: feed-service
+    spec:
+      containers:
+        - name: feed-service
+          image: shubhratripathi16/feed-service:latest
+          ports:
+            - containerPort: 8087
+          envFrom:
+            - configMapRef:
+                name: linkedin-config
+            - secretRef:
+                name: linkedin-secrets
