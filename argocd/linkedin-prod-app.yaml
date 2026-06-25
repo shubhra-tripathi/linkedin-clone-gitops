@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkedin-prod
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/shubhra-tripathi/linkedin-clone-gitops.git
+    targetRevision: main
+    path: environments/prod
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: linkedin-prod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

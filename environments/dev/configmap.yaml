@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: linkedin-config
+  namespace: linkedin-dev
+data:
+  SPRING_PROFILES_ACTIVE: dev
+  RDS_HOST: postgres
+  RDS_PORT: "5432"
+  MSK_BOOTSTRAP_SERVERS: kafka:9092
+  OPENSEARCH_URL: http://opensearch:9200
