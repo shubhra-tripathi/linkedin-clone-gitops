@@ -4,9 +4,9 @@ metadata:
   name: linkedin-frontend
   namespace: linkedin-prod
 spec:
+  type: LoadBalancer
   selector:
     app: linkedin-frontend
   ports:
     - port: 3000
       targetPort: 3000
-  type: ClusterIP
