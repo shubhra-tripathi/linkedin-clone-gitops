@@ -1,0 +1,14 @@
+namespace: linkedin-prod
+
+redis:
+  image: redis:7
+  port: 6379
+  serviceType: ClusterIP
+
+keycloak:
+  image: quay.io/keycloak/keycloak:26.0
+  port: 8080
+  serviceType: LoadBalancer
+  dbHost: linkedin-postgres.cj8ekcimav3i.eu-west-2.rds.amazonaws.com
+  dbPort: 5432
+  dbName: keycloakdb

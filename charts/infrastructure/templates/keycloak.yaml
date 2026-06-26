@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: {{ .Values.keycloak.image }}
+          args:
+            - start
+            - --http-enabled=true
+            - --hostname-strict=false
+          ports:
+            - containerPort: {{ .Values.keycloak.port }}
+          env:
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL
+              value: jdbc:postgresql://{{ .Values.keycloak.dbHost }}:{{ .Values.keycloak.dbPort }}/{{ .Values.keycloak.dbName }}
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_DB_USERNAME
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_DB_PASSWORD
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_ADMIN
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_ADMIN_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.keycloak.serviceType }}
+  selector:
+    app: keycloak
+  ports:
+    - port: {{ .Values.keycloak.port }}
+      targetPort: {{ .Values.keycloak.port }}
