@@ -29,3 +29,6 @@ resources:
 
   - notification-service/deployment.yaml
   - notification-service/service.yaml
+
+  - keycloak/deployment.yaml
+  - keycloak/service.yaml

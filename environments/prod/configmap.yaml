@@ -29,4 +29,22 @@ data:
   JOBPOSTING_SERVICE_PORT: "8091"
   NOTIFICATION_SERVICE_PORT: "8090"
 
+  KEYCLOAK_DB_HOST: linkedin-postgres.cj8ekcimav3i.eu-west-2.rds.amazonaws.com
+  KEYCLOAK_DB_PORT: "5432"
+  KEYCLOAK_DB_NAME: keycloakdb
+
+  KEYCLOAK_INTERNAL_URL: http://keycloak:8080
+  KEYCLOAK_EXTERNAL_URL: http://localhost:8080
+
+  KEYCLOAK_ISSUER_URI: http://localhost:8080/realms/linkedin-app
+  KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/linkedin-app/protocol/openid-connect/certs
+
+  SPRING_KAFKA_BOOTSTRAP_SERVERS: b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092
+  ELASTICSEARCH_URI: vpc-linkedin-search-5jrtdntrpho4npixlj4qurnpym.eu-west-2.es.amazonaws.com
+
+  REACT_APP_KEYCLOAK_URL: http://localhost:8080
+  REACT_APP_KEYCLOAK_REALM: linkedin-app
+  REACT_APP_KEYCLOAK_CLIENT_ID: linkedin-frontend
+  REACT_APP_API_BASE_URL: http://localhost:8085
+
 

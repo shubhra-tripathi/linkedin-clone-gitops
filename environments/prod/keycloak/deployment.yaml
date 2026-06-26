@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: linkedin-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:26.0
+          args:
+            - start
+            - --http-enabled=true
+            - --hostname-strict=false
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: linkedin-config
+          env:
+            - name: KC_DB
+              value: postgres
+            - name: KC_DB_URL
+              value: jdbc:postgresql://$(KEYCLOAK_DB_HOST):$(KEYCLOAK_DB_PORT)/$(KEYCLOAK_DB_NAME)
+            - name: KC_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_DB_USERNAME
+            - name: KC_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_DB_PASSWORD
+            - name: KEYCLOAK_ADMIN
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_ADMIN
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: KEYCLOAK_ADMIN_PASSWORD
