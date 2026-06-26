@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: post-service
-          image: docker.io/shubhratripathi16/post-service:main-41-a7c64b3af051
+          image: shubhratripathi16/post-service:latest
           ports:
             - containerPort: 8088
           envFrom:
@@ -24,15 +24,20 @@ spec:
             - secretRef:
                 name: linkedin-secrets
           env:
-            - name: SPRING_DATASOURCE_URL
+            - name: POSTGRES_URL
               value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(POST_DB_NAME)
-            - name: SPRING_DATASOURCE_USERNAME
+            - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: DB_USERNAME
-            - name: SPRING_DATASOURCE_PASSWORD
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: DB_PASSWORD
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: linkedin-config
+                  key: MSK_BOOTSTRAP_SERVERS
