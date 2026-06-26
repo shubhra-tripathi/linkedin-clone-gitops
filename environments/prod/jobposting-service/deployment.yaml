@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: jobposting-service
-          image: shubhratripathi16/jobposting-service:latest
+          image: docker.io/shubhratripathi16/jobposting-service:main-41-a7c64b3af051
           ports:
             - containerPort: 8091
           envFrom:

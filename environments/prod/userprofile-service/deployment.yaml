@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: userprofile-service
-          image: shubhratripathi16/userprofile-service:latest
+          image: docker.io/shubhratripathi16/userprofile-service:main-41-a7c64b3af051
           ports:
             - containerPort: 8083
           envFrom:
