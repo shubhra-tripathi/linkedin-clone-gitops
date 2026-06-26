@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jobposting-service
+  namespace: linkedin-prod
+spec:
+  selector:
+    app: jobposting-service
+  ports:
+    - port: 8091
+      targetPort: 8091
+  type: ClusterIP

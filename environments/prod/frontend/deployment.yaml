@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linkedin-frontend
+  namespace: linkedin-prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linkedin-frontend
+  template:
+    metadata:
+      labels:
+        app: linkedin-frontend
+    spec:
+      containers:
+        - name: linkedin-frontend
+          image: shubhratripathi16/linkedin-frontend:latest
+          ports:
+            - containerPort: 3000

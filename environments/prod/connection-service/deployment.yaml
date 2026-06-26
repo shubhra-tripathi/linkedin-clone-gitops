@@ -1,33 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: feed-service
+  name: connection-service
   namespace: linkedin-prod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: feed-service
+      app: connection-service
   template:
     metadata:
       labels:
-        app: feed-service
+        app: connection-service
     spec:
       containers:
-        - name: feed-service
-          image: shubhratripathi16/feed-service:latest
+        - name: connection-service
+          image: shubhratripathi16/connection-service:latest
           ports:
-            - containerPort: 8087
-
+            - containerPort: 8093
           envFrom:
             - configMapRef:
                 name: linkedin-config
             - secretRef:
                 name: linkedin-secrets
-
           env:
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(FEED_DB_NAME)
+              value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(CONNECTION_DB_NAME)
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:

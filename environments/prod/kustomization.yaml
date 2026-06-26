@@ -20,3 +20,12 @@ resources:
 
   - frontend/deployment.yaml
   - frontend/service.yaml
+
+  - userprofile-service/deployment.yaml
+  - userprofile-service/service.yaml
+
+  - jobposting-service/deployment.yaml
+  - jobposting-service/service.yaml
+
+  - notification-service/deployment.yaml
+  - notification-service/service.yaml

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: connection-service
+  namespace: linkedin-prod
+spec:
+  selector:
+    app: connection-service
+  ports:
+    - port: 8093
+      targetPort: 8093
+  type: ClusterIP

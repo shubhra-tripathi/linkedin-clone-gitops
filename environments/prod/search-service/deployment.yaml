@@ -23,3 +23,16 @@ spec:
                 name: linkedin-config
             - secretRef:
                 name: linkedin-secrets
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(SEARCH_DB_NAME)
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: DB_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: linkedin-secrets
+                  key: DB_PASSWORD
