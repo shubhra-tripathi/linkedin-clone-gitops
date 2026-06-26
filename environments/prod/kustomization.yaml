@@ -32,3 +32,6 @@ resources:
 
   - keycloak/deployment.yaml
   - keycloak/service.yaml
+
+  - connection-service/deployment.yaml
+  - connection-service/service.yaml

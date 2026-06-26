@@ -1,0 +1,22 @@
+namespace: linkedin-prod
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: "26.0"
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+database:
+  host: linkedin-postgres.cj8ekcimav3i.eu-west-2.rds.amazonaws.com
+  port: 5432
+  name: keycloakdb
+
+admin:
+  usernameSecretKey: KEYCLOAK_ADMIN
+  passwordSecretKey: KEYCLOAK_ADMIN_PASSWORD
+
+dbSecret:
+  usernameKey: KEYCLOAK_DB_USERNAME
+  passwordKey: KEYCLOAK_DB_PASSWORD
