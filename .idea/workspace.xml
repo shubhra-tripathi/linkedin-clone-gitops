@@ -17,11 +17,11 @@
       <change afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/subscription-service/service.yaml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/userprofile-service/deployment.yaml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/userprofile-service/service.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/configmap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/configmap.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/feed-service/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/feed-service/deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/frontend/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/frontend/deployment.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/kustomization.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/kustomization.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/post-service/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/post-service/deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/search-service/deployment.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/search-service/deployment.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/secret.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/linkedin-clone-gitops/environments/prod/secret.yaml" afterDir="false" />
