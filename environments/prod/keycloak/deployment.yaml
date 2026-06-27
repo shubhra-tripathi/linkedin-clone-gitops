@@ -28,6 +28,10 @@ spec:
           env:
             - name: KC_DB
               value: postgres
+            - name: KC_HOSTNAME
+              value: aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com
+            - name: KC_PROXY_HEADERS
+              value: xforwarded
             - name: KC_DB_URL
               value: jdbc:postgresql://$(KEYCLOAK_DB_HOST):$(KEYCLOAK_DB_PORT)/$(KEYCLOAK_DB_NAME)
             - name: KC_DB_USERNAME
