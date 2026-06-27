@@ -20,10 +20,10 @@ spec:
             - containerPort: 3000
           env:
             - name: REACT_APP_KEYCLOAK_URL
-              value: http://localhost:8080
+              value: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080
             - name: REACT_APP_KEYCLOAK_REALM
               value: linkedin-app
             - name: REACT_APP_KEYCLOAK_CLIENT_ID
               value: linkedin-frontend
             - name: REACT_APP_API_BASE_URL
-              value: http://localhost:8085
+              value: http://ac2511ef9149847f0ae9ed56e0f05ba3-876930999.eu-west-2.elb.amazonaws.com:8085

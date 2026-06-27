@@ -37,12 +37,12 @@ spec:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: KEYCLOAK_DB_PASSWORD
-            - name: KEYCLOAK_ADMIN
+            - name: KC_BOOTSTRAP_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: KEYCLOAK_ADMIN
-            - name: KEYCLOAK_ADMIN_PASSWORD
+            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: linkedin-secrets
