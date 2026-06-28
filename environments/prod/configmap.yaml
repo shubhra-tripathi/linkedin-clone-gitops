@@ -7,6 +7,9 @@ data:
   SPRING_PROFILES_ACTIVE: prod
   RDS_HOST: linkedin-postgres.cj8ekcimav3i.eu-west-2.rds.amazonaws.com
   RDS_PORT: "5432"
+  SPRING_DATA_REDIS_HOST: redis
+  SPRING_DATA_REDIS_PORT: "6379"
+  SPRING_DATA_REDIS_SSL_ENABLED: "false"
 
   FEED_DB_NAME: feeddb
   POST_DB_NAME: postdb
@@ -21,6 +24,11 @@ data:
 
   MSK_BOOTSTRAP_SERVERS: b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092
   OPENSEARCH_URL: https://vpc-linkedin-search-5jrtdntrpho4npixlj4qurnpym.eu-west-2.es.amazonaws.com
+
+  FEED_SERVICE_URI: http://feed-service:8087
+  POST_SERVICE_URI: http://post-service:8088
+  SEARCH_SERVICE_URI: http://search-service:8086
+  USERPROFILE_SERVICE_URI: http://userprofile-service:8083
 
   API_GATEWAY_PORT: "8085"
   FEED_SERVICE_PORT: "8087"
@@ -37,7 +45,7 @@ data:
   KEYCLOAK_INTERNAL_URL: http://keycloak:8080
   KEYCLOAK_EXTERNAL_URL: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080
 
-  KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/linkedin-app
+  KEYCLOAK_ISSUER_URI: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080/realms/linkedin-app
   KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/linkedin-app/protocol/openid-connect/certs
 
   REACT_APP_KEYCLOAK_URL: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080
