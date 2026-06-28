@@ -35,7 +35,7 @@ data:
   KEYCLOAK_DB_NAME: keycloakdb
 
   KEYCLOAK_INTERNAL_URL: http://keycloak:8080
-  KEYCLOAK_EXTERNAL_URL: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com
+  KEYCLOAK_EXTERNAL_URL: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080
 
   KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/linkedin-app
   KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/linkedin-app/protocol/openid-connect/certs
