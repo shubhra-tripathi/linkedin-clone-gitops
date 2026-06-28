@@ -15,7 +15,8 @@ spec:
     spec:
       containers:
         - name: feed-service
-          image: docker.io/shubhratripathi16/feed-service:main-49-f82b453d6265
+          image: docker.io/shubhratripathi16/feed-service:main-52-d35d33ecbaf2
+env:        - name: MSK_BOOTSTRAP_SERVERS          value: b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092
           ports:
             - containerPort: 8087
 
