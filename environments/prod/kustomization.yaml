@@ -31,3 +31,5 @@ resources:
   - connection-service/service.yaml
   - subscription-service/deployment.yaml
   - subscription-service/service.yaml
+  - schema-registry/deployment.yaml
+  - schema-registry/service.yaml
