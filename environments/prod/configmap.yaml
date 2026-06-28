@@ -50,5 +50,9 @@ data:
   REACT_APP_KEYCLOAK_REALM: linkedin-app
   REACT_APP_KEYCLOAK_CLIENT_ID: linkedin-frontend
 
+  APP_GATEWAY_SECURITY_ALLOWED_ORIGINS_0: "http://ade5840dc3ec0494cba966d84b187f2c-490133502.eu-west-2.elb.amazonaws.com:3000"
+  APP_GATEWAY_SECURITY_ALLOWED_TOKEN_CLIENTS_0: "linkedin-frontend"
+  APP_GATEWAY_SECURITY_ALLOWED_TOKEN_CLIENTS_1: "api-gateway"
+
 
 
