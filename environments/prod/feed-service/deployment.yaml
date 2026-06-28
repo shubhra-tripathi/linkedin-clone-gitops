@@ -16,16 +16,13 @@ spec:
       containers:
         - name: feed-service
           image: docker.io/shubhratripathi16/feed-service:main-52-d35d33ecbaf2
-env:        - name: MSK_BOOTSTRAP_SERVERS          value: b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092
           ports:
             - containerPort: 8087
-
           envFrom:
             - configMapRef:
                 name: linkedin-config
             - secretRef:
                 name: linkedin-secrets
-
           env:
             - name: POSTGRES_URL
               value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(FEED_DB_NAME)
@@ -40,6 +37,11 @@ env:        - name: MSK_BOOTSTRAP_SERVERS          value: b-1.linkedinmsk.vnj8l2
                   name: linkedin-secrets
                   key: DB_PASSWORD
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: linkedin-config
+                  key: MSK_BOOTSTRAP_SERVERS
+            - name: MSK_BOOTSTRAP_SERVERS
               valueFrom:
                 configMapKeyRef:
                   name: linkedin-config
