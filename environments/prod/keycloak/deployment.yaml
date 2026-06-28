@@ -49,7 +49,7 @@ spec:
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_HOSTNAME
-              value: "aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com"
+              value: "a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com"
             - name: KC_HOSTNAME_STRICT
               value: "false"
             - name: KC_PROXY_HEADERS

@@ -25,14 +25,14 @@ spec:
             - secretRef:
                 name: linkedin-secrets
           env:
-            - name: POSTGRES_URL
+            - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(USERPROFILE_DB_NAME)
-            - name: POSTGRES_USER
+            - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: DB_USERNAME
-            - name: POSTGRES_PASSWORD
+            - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: linkedin-secrets
