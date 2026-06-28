@@ -20,6 +20,7 @@ spec:
             - start
             - --http-enabled=true
             - --hostname-strict=false
+            - --optimized
           ports:
             - containerPort: 8080
           envFrom:
@@ -28,10 +29,6 @@ spec:
           env:
             - name: KC_DB
               value: postgres
-            - name: KC_HOSTNAME
-              value: aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com
-            - name: KC_PROXY_HEADERS
-              value: xforwarded
             - name: KC_DB_URL
               value: jdbc:postgresql://$(KEYCLOAK_DB_HOST):$(KEYCLOAK_DB_PORT)/$(KEYCLOAK_DB_NAME)
             - name: KC_DB_USERNAME
@@ -44,6 +41,16 @@ spec:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: KEYCLOAK_DB_PASSWORD
+
+            - name: KC_HTTP_ENABLED
+              value: "true"
+            - name: KC_HOSTNAME
+              value: "http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080"
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_PROXY_HEADERS
+              value: "xforwarded"
+
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
