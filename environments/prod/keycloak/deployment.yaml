@@ -16,11 +16,15 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.0
+          command:
+            - /bin/bash
+            - -ec
           args:
-            - start
-            - --http-enabled=true
-            - --hostname-strict=false
-            - --optimized
+            - >
+              /opt/keycloak/bin/kc.sh build --db=${KC_DB} &&
+              exec /opt/keycloak/bin/kc.sh start --optimized
+              --http-enabled=true
+              --hostname-strict=false
           ports:
             - containerPort: 8080
           envFrom:
@@ -45,7 +49,7 @@ spec:
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_HOSTNAME
-              value: "http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080"
+              value: "aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com"
             - name: KC_HOSTNAME_STRICT
               value: "false"
             - name: KC_PROXY_HEADERS
