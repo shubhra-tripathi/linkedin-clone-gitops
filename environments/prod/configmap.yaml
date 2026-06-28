@@ -40,7 +40,7 @@ data:
   KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/linkedin-app
   KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/linkedin-app/protocol/openid-connect/certs
 
-  REACT_APP_KEYCLOAK_URL: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com
+  REACT_APP_KEYCLOAK_URL: http://aec309ee889da4d90ab7878d464ff7f6-16952302.eu-west-2.elb.amazonaws.com:8080
   REACT_APP_API_BASE_URL: http://ac2511ef9149847f0ae9ed56e0f05ba3-876930999.eu-west-2.elb.amazonaws.com:8085
 
   SPRING_KAFKA_BOOTSTRAP_SERVERS: b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092
