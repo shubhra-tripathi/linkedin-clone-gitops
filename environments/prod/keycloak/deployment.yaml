@@ -17,14 +17,11 @@ spec:
         - name: keycloak
           image: quay.io/keycloak/keycloak:26.0
           command:
-            - /bin/bash
-            - -ec
+            - /opt/keycloak/bin/kc.sh
           args:
-            - >
-              /opt/keycloak/bin/kc.sh build --db=${KC_DB} &&
-              exec /opt/keycloak/bin/kc.sh start --optimized
-              --http-enabled=true
-              --hostname-strict=false
+            - start
+            - --http-enabled=true
+            - --hostname-strict=false
           ports:
             - containerPort: 8080
           envFrom:
@@ -46,12 +43,13 @@ spec:
                   name: linkedin-secrets
                   key: KEYCLOAK_DB_PASSWORD
 
-            - name: KC_HTTP_ENABLED
-              value: "true"
             - name: KC_HOSTNAME
-              value: "a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com:8080"
+              value: "http://a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com"
+
             - name: KC_HOSTNAME_STRICT
               value: "false"
+            - name: KC_HTTP_ENABLED
+              value: "true"
             - name: KC_PROXY_HEADERS
               value: "xforwarded"
 
