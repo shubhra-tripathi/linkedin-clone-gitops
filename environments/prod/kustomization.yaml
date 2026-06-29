@@ -5,6 +5,8 @@ resources:
   - namespace.yaml
   - configmap.yaml
   - secret.yaml
+  - redis/deplyment.yaml
+  - redis/service.yaml
   - api-gateway/deployment.yaml
   - api-gateway/service.yaml
   - feed-service/deployment.yaml
@@ -23,6 +25,8 @@ resources:
   - notification-service/service.yaml
   - messaging-service/deployment.yaml
   - messaging-service/service.yaml
+  - keycloak/deployment.yaml
+  - keycloak/service.yaml
   - connection-service/deployment.yaml
   - connection-service/service.yaml
   - subscription-service/deployment.yaml
