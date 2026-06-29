@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: linkedin-frontend
-          image: docker.io/shubhratripathi16/linkedin-frontend:main-57-f8f8e569e181
+          image: docker.io/shubhratripathi16/linkedin-frontend:main-60-abab719a8c47
           ports:
             - containerPort: 3000
           env:
