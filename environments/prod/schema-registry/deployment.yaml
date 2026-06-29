@@ -20,10 +20,12 @@ spec:
             - containerPort: 8081
           env:
             - name: SCHEMA_REGISTRY_HOST_NAME
-              value: schema-registry
+              value: "schema-registry"
             - name: SCHEMA_REGISTRY_LISTENERS
-              value: http://0.0.0.0:8081
+              value: "http://0.0.0.0:8081"
             - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
-              value: PLAINTEXT://b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,PLAINTEXT://b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092
+              value: "b-1.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092,b-2.linkedinmsk.vnj8l2.c3.kafka.eu-west-2.amazonaws.com:9092"
             - name: SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL
-              value: PLAINTEXT
+              value: "PLAINTEXT"
+            - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC
+              value: "_schemas"
