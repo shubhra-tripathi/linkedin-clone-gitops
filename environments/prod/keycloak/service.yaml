@@ -9,6 +9,6 @@ spec:
     app: keycloak
   ports:
     - name: http
-      port: 80
+      port: 8080
       targetPort: 8080
       protocol: TCP

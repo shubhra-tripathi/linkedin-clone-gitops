@@ -44,7 +44,7 @@ spec:
                   key: KEYCLOAK_DB_PASSWORD
 
             - name: KC_HOSTNAME
-              value: "http://a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com"
+              value: "http://a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com:8080"
 
             - name: KC_HOSTNAME_STRICT
               value: "false"
