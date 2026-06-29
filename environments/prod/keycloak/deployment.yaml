@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: keycloak
-  namespace: {{ .Values.namespace }}
+  namespace: linkedin-prod
 spec:
   replicas: 1
   selector:
@@ -15,18 +15,23 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: {{ .Values.keycloak.image }}
+          image: quay.io/keycloak/keycloak:26.0
+          command:
+            - /opt/keycloak/bin/kc.sh
           args:
             - start
             - --http-enabled=true
             - --hostname-strict=false
           ports:
-            - containerPort: {{ .Values.keycloak.port }}
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: linkedin-config
           env:
             - name: KC_DB
               value: postgres
             - name: KC_DB_URL
-              value: jdbc:postgresql://{{ .Values.keycloak.dbHost }}:{{ .Values.keycloak.dbPort }}/{{ .Values.keycloak.dbName }}
+              value: jdbc:postgresql://$(KEYCLOAK_DB_HOST):$(KEYCLOAK_DB_PORT)/$(KEYCLOAK_DB_NAME)
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -37,6 +42,17 @@ spec:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: KEYCLOAK_DB_PASSWORD
+
+            - name: KC_HOSTNAME
+              value: "http://a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com:8080"
+
+            - name: KC_HOSTNAME_STRICT
+              value: "false"
+            - name: KC_HTTP_ENABLED
+              value: "true"
+            - name: KC_PROXY_HEADERS
+              value: "xforwarded"
+
             - name: KC_BOOTSTRAP_ADMIN_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -47,16 +63,3 @@ spec:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: KEYCLOAK_ADMIN_PASSWORD
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: keycloak
-  namespace: {{ .Values.namespace }}
-spec:
-  type: {{ .Values.keycloak.serviceType }}
-  selector:
-    app: keycloak
-  ports:
-    - port: {{ .Values.keycloak.port }}
-      targetPort: {{ .Values.keycloak.port }}

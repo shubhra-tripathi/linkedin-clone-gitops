@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
-  namespace: {{ .Values.namespace }}
+  namespace: linkedin-prod
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app: redis
@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: redis
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: redis:7
           ports:
-            - containerPort: {{ .Values.service.port }}
+            - containerPort: 6379
