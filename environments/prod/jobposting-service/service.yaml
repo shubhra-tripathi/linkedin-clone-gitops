@@ -7,6 +7,7 @@ spec:
   selector:
     app: jobposting-service
   ports:
-    - port: 8091
-      targetPort: 8091
+    - name: http
+      port: 8091
+      targetPort: http
   type: ClusterIP

@@ -17,14 +17,20 @@ spec:
       containers:
         - name: userprofile-service
           image: docker.io/shubhratripathi16/userprofile-service:main-63-af0ee67d55d2
+          imagePullPolicy: Always
           ports:
-            - containerPort: 8083
+            - name: http
+              containerPort: 8083
           envFrom:
             - configMapRef:
                 name: linkedin-config
             - secretRef:
                 name: linkedin-secrets
           env:
+            - name: SERVER_PORT
+              value: "8083"
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(USERPROFILE_DB_NAME)
             - name: SPRING_DATASOURCE_USERNAME
@@ -42,4 +48,17 @@ spec:
                 configMapKeyRef:
                   name: linkedin-config
                   key: MSK_BOOTSTRAP_SERVERS
-
+            - name: POSTGRES_SSLMODE
+              value: require
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 20
