@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: search-service
-          image: docker.io/shubhratripathi16/search-service:main-63-af0ee67d55d2
+          image: docker.io/shubhratripathi16/search-service:main-67-5e679a1fd03b
           ports:
             - containerPort: 8086
 
