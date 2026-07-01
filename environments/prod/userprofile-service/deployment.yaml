@@ -16,8 +16,10 @@ spec:
     spec:
       containers:
         - name: userprofile-service
-          image: docker.io/shubhratripathi16/userprofile-service:main-63-af0ee67d55d2
-          imagePullPolicy: Always
+
+
+          image: docker.io/shubhratripathi16/userprofile-service:main-69-96c82db58d8e
+
           ports:
             - name: http
               containerPort: 8083
