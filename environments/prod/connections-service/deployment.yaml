@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: connection-service
+  name: connections-service
   namespace: linkedin-prod
   labels:
-    app: connection-service
+    app: connections-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: connection-service
+      app: connections-service
   template:
     metadata:
       labels:
-        app: connection-service
+        app: connections-service
     spec:
       containers:
-        - name: connection-service
-          image: docker.io/shubhratripathi16/connection-service:main-67-5e679a1fd03b
+        - name: connections-service
+          image: docker.io/shubhratripathi16/connections-service:main-69-96c82db58d8e
           imagePullPolicy: Always
           ports:
             - name: http

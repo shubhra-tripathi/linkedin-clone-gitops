@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: connection-service
+  name: connections-service
   namespace: linkedin-prod
 spec:
   selector:
-    app: connection-service
+    app: connections-service
   ports:
     - name: http
       port: 8093
