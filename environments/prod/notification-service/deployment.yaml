@@ -15,12 +15,10 @@ spec:
     spec:
       containers:
         - name: notification-service
-<<<<<<< HEAD
-          image: docker.io/shubhratripathi16/notification-service:main-63-af0ee67d55d2
-          imagePullPolicy: Always
-=======
+
+
           image: docker.io/shubhratripathi16/notification-service:main-69-96c82db58d8e
->>>>>>> 5d2cc90de9bfcaa0bb15cee9fbce0074ce6054af
+
           ports:
             - name: http
               containerPort: 8090
