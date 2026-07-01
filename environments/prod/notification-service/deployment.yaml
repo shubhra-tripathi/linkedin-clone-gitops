@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: notification-service
-          image: docker.io/shubhratripathi16/notification-service:main-60-abab719a8c47
+          image: docker.io/shubhratripathi16/notification-service:main-63-af0ee67d55d2
           ports:
             - containerPort: 8090
           envFrom:
