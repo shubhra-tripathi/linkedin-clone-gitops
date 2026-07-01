@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: schema-debug
+  namespace: linkedin-prod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: schema
+      image: confluentinc/cp-schema-registry:7.7.1
+      command:
+        - sleep
+        - infinity

@@ -66,6 +66,7 @@ data:
   APP_GATEWAY_SECURITY_ALLOWED_TOKEN_CLIENTS_1: "api-gateway"
 
   SPRING_KAFKA_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+  SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
   SCHEMA_REGISTRY_URL: http://schema-registry:8081
 
 
