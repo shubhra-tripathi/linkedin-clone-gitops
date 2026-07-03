@@ -24,6 +24,7 @@ spec:
             - --hostname-strict=false
           ports:
             - containerPort: 8080
+            - containerPort: 9000
           envFrom:
             - configMapRef:
                 name: linkedin-config
@@ -31,7 +32,7 @@ spec:
             - name: KC_DB
               value: postgres
             - name: KC_DB_URL
-              value: jdbc:postgresql://$(KEYCLOAK_DB_HOST):$(KEYCLOAK_DB_PORT)/$(KEYCLOAK_DB_NAME)
+              value: jdbc:postgresql://linkedin-postgres.cj8ekcimav3i.eu-west-2.rds.amazonaws.com:5432/keycloakdb
             - name: KC_DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -50,6 +51,8 @@ spec:
               value: "false"
             - name: KC_HTTP_ENABLED
               value: "true"
+            - name: KC_HEALTH_ENABLED
+              value: "true"
             - name: KC_PROXY_HEADERS
               value: "xforwarded"
 
@@ -63,3 +66,23 @@ spec:
                 secretKeyRef:
                   name: linkedin-secrets
                   key: KEYCLOAK_ADMIN_PASSWORD
+          startupProbe:
+            httpGet:
+              path: /health/started
+              port: 9000
+            failureThreshold: 60
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 3
