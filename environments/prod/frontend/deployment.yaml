@@ -16,11 +16,19 @@ spec:
       containers:
         - name: linkedin-frontend
           image: docker.io/shubhratripathi16/linkedin-frontend:main-70-2e943ddb81de
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - |
+              node -e "const fs=require('fs'),path=require('path'); const replacements=new Map([['http://localhost:8080',process.env.REACT_APP_KEYCLOAK_URL],['http://localhost:8085',process.env.REACT_APP_API_BASE_URL],['http://localhost:3000/login',(process.env.REACT_APP_LOGOUT_REDIRECT_URI||'')]]); function patchFile(file){let text=fs.readFileSync(file,'utf8'); let next=text; for(const [from,to] of replacements){ if(to) next=next.split(from).join(to); } if(next!==text) fs.writeFileSync(file,next); } function walk(dir){ for(const entry of fs.readdirSync(dir,{withFileTypes:true})){ const file=path.join(dir,entry.name); if(entry.isDirectory()) walk(file); else if(/\.(js|html)$/.test(entry.name)) patchFile(file); }} walk('/app/build'); const server='/app/server.js'; let serverText=fs.readFileSync(server,'utf8'); serverText=serverText.replace('\"Cache-Control\": ext === \".html\" ? \"no-cache\" : \"public, max-age=31536000\"','\"Cache-Control\": \"no-store\"'); fs.writeFileSync(server,serverText); console.log('Runtime frontend config injected');" && exec node /app/server.js
           ports:
             - containerPort: 3000
           env:
             - name: REACT_APP_KEYCLOAK_URL
               value: http://a9099f2319da740c3b1c3e37813205aa-704837357.eu-west-2.elb.amazonaws.com:8080
+            - name: REACT_APP_LOGOUT_REDIRECT_URI
+              value: http://ade5840dc3ec0494cba966d84b187f2c-490133502.eu-west-2.elb.amazonaws.com:3000/login
             - name: REACT_APP_KEYCLOAK_REALM
               value: linkedin-app
             - name: REACT_APP_KEYCLOAK_CLIENT_ID
