@@ -19,6 +19,8 @@ resources:
   - frontend/service.yaml
   - userprofile-service/deployment.yaml
   - userprofile-service/service.yaml
+  - userprofile-service/bootstrap-configmap.yaml
+  - userprofile-service/bootstrap-cronjob.yaml
   - jobposting-service/deployment.yaml
   - jobposting-service/service.yaml
   - notification-service/deployment.yaml

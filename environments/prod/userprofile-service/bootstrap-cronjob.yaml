@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: userprofile-bootstrap
+  namespace: linkedin-prod
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: userprofile-bootstrap
+              image: postgres:16-alpine
+              command:
+                - psql
+                - -v
+                - ON_ERROR_STOP=1
+                - -h
+                - linkedin-postgres.cj8ekcimav3i.eu-west-2.rds.amazonaws.com
+                - -p
+                - "5432"
+                - -U
+                - postgres
+                - -d
+                - userprofiledb
+                - -f
+                - /bootstrap/seed-profiles.sql
+              env:
+                - name: PGSSLMODE
+                  value: require
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: linkedin-secrets
+                      key: DB_PASSWORD
+              volumeMounts:
+                - name: bootstrap
+                  mountPath: /bootstrap
+                  readOnly: true
+          volumes:
+            - name: bootstrap
+              configMap:
+                name: userprofile-bootstrap
