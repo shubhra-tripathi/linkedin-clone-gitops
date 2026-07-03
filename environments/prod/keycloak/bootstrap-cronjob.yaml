@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: keycloak-bootstrap
+  namespace: linkedin-prod
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: keycloak-bootstrap
+              image: python:3.12-alpine
+              command:
+                - python
+                - /bootstrap/bootstrap.py
+              env:
+                - name: KEYCLOAK_INTERNAL_URL
+                  value: http://keycloak:8080
+                - name: KEYCLOAK_REALM
+                  value: linkedin-app
+                - name: KEYCLOAK_FRONTEND_CLIENT_ID
+                  value: linkedin-frontend
+                - name: FRONTEND_ORIGIN
+                  value: http://ade5840dc3ec0494cba966d84b187f2c-490133502.eu-west-2.elb.amazonaws.com:3000
+                - name: KEYCLOAK_ADMIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: linkedin-secrets
+                      key: KEYCLOAK_ADMIN
+                - name: KEYCLOAK_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: linkedin-secrets
+                      key: KEYCLOAK_ADMIN_PASSWORD
+              volumeMounts:
+                - name: bootstrap
+                  mountPath: /bootstrap
+                  readOnly: true
+          volumes:
+            - name: bootstrap
+              configMap:
+                name: keycloak-bootstrap

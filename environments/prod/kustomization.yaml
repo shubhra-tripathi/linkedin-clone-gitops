@@ -27,6 +27,8 @@ resources:
   - messaging-service/service.yaml
   - keycloak/deployment.yaml
   - keycloak/service.yaml
+  - keycloak/bootstrap-configmap.yaml
+  - keycloak/bootstrap-cronjob.yaml
   - connections-service/deployment.yaml
   - connections-service/service.yaml
   - subscription-service/deployment.yaml

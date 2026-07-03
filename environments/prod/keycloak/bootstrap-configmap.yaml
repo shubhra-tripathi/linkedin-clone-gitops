@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-bootstrap
+  namespace: linkedin-prod
+data:
+  bootstrap.py: |
+    import json
+    import os
+    import time
+    import urllib.error
+    import urllib.parse
+    import urllib.request
+
+    keycloak_url = os.environ.get("KEYCLOAK_INTERNAL_URL", "http://keycloak:8080").rstrip("/")
+    admin_user = os.environ["KEYCLOAK_ADMIN"]
+    admin_password = os.environ["KEYCLOAK_ADMIN_PASSWORD"]
+    realm = os.environ.get("KEYCLOAK_REALM", "linkedin-app")
+    client_id = os.environ.get("KEYCLOAK_FRONTEND_CLIENT_ID", "linkedin-frontend")
+    frontend_origin = os.environ["FRONTEND_ORIGIN"].rstrip("/")
+
+    def request(method, path, token=None, data=None, form=None, retries=20):
+      url = keycloak_url + path
+      body = None
+      headers = {}
+      if form is not None:
+        body = urllib.parse.urlencode(form).encode()
+        headers["Content-Type"] = "application/x-www-form-urlencoded"
+      elif data is not None:
+        body = json.dumps(data).encode()
+        headers["Content-Type"] = "application/json"
+      if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+      last_error = None
+      for _ in range(retries):
+        try:
+          req = urllib.request.Request(url, data=body, headers=headers, method=method)
+          with urllib.request.urlopen(req, timeout=20) as response:
+            text = response.read().decode()
+            return json.loads(text) if text else None
+        except urllib.error.HTTPError as exc:
+          if exc.code in (404, 409) and retries == 1:
+            return None
+          last_error = exc.read().decode(errors="replace")
+          raise RuntimeError(f"{method} {url} failed with {exc.code}: {last_error}") from exc
+        except Exception as exc:
+          last_error = exc
+          time.sleep(6)
+      raise RuntimeError(f"{method} {url} failed after retries: {last_error}")
+
+    def admin_token():
+      token = request(
+        "POST",
+        "/realms/master/protocol/openid-connect/token",
+        form={
+          "client_id": "admin-cli",
+          "grant_type": "password",
+          "username": admin_user,
+          "password": admin_password,
+        },
+      )
+      return token["access_token"]
+
+    token = admin_token()
+
+    for alias in ("VERIFY_PROFILE", "VERIFY_EMAIL", "UPDATE_PROFILE"):
+      action = request("GET", f"/admin/realms/{realm}/authentication/required-actions/{alias}", token=token)
+      action["enabled"] = False
+      action["defaultAction"] = False
+      request("PUT", f"/admin/realms/{realm}/authentication/required-actions/{alias}", token=token, data=action)
+
+    clients = request(
+      "GET",
+      f"/admin/realms/{realm}/clients?clientId={urllib.parse.quote(client_id)}",
+      token=token,
+    )
+    if not clients:
+      raise RuntimeError(f"Keycloak client {client_id!r} was not found")
+
+    client = clients[0]
+    redirect_uris = set(client.get("redirectUris") or [])
+    redirect_uris.update({f"{frontend_origin}/*", f"{frontend_origin}/"})
+    client["redirectUris"] = sorted(redirect_uris)
+
+    web_origins = set(client.get("webOrigins") or [])
+    web_origins.add(frontend_origin)
+    client["webOrigins"] = sorted(web_origins)
+
+    attributes = client.get("attributes") or {}
+    attributes["pkce.code.challenge.method"] = "S256"
+    attributes["post.logout.redirect.uris"] = f"{frontend_origin}/*##http://localhost:3000/*"
+    client["attributes"] = attributes
+    client["publicClient"] = True
+    client["standardFlowEnabled"] = True
+    client["implicitFlowEnabled"] = False
+    client["directAccessGrantsEnabled"] = False
+    request("PUT", f"/admin/realms/{realm}/clients/{client['id']}", token=token, data=client)
+
+    users = request("GET", f"/admin/realms/{realm}/users?max=500", token=token)
+    for user in users:
+      full = request("GET", f"/admin/realms/{realm}/users/{user['id']}", token=token)
+      full["emailVerified"] = True
+      full["requiredActions"] = []
+      request("PUT", f"/admin/realms/{realm}/users/{user['id']}", token=token, data=full)
+
+    print("Keycloak frontend login settings reconciled")
