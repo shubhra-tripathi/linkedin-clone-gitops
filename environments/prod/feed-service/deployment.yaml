@@ -46,3 +46,5 @@ spec:
                 configMapKeyRef:
                   name: linkedin-config
                   key: MSK_BOOTSTRAP_SERVERS
+            - name: TIMELINE_SEED_DEMO_DATA
+              value: "false"
