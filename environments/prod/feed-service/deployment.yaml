@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: feed-service
-          image: docker.io/shubhratripathi16/feed-service:main-72-2f41ec29ddd0
+          image: docker.io/shubhratripathi16/feed-service:profile-e2e-20260706
           ports:
             - containerPort: 8087
           envFrom:
