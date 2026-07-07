@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: linkedin-frontend
-          image: docker.io/shubhratripathi16/linkedin-frontend:feed-profile-clean-20260706
+          image: docker.io/shubhratripathi16/linkedin-frontend:feed-profile-username-fallback-20260707
           command:
             - /bin/sh
             - -c
