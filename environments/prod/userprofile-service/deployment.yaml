@@ -18,7 +18,7 @@ spec:
         - name: userprofile-service
 
 
-          image: docker.io/shubhratripathi16/userprofile-service:profile-token-subject-fallback-20260707
+          image: docker.io/shubhratripathi16/userprofile-service:profile-username-fallback-20260707
 
           ports:
             - name: http
