@@ -18,7 +18,7 @@ spec:
         - name: userprofile-service
 
 
-          image: docker.io/shubhratripathi16/userprofile-service:profile-email-claim-20260707
+          image: docker.io/shubhratripathi16/userprofile-service:profile-sub-only-20260708
 
           ports:
             - name: http
