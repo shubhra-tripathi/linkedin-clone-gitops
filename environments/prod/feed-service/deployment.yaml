@@ -13,6 +13,7 @@ spec:
       labels:
         app: feed-service
     spec:
+      serviceAccountName: media-service-account
       containers:
         - name: feed-service
           image: docker.io/shubhratripathi16/feed-service:main-77-9b4a6b723d83
