@@ -48,3 +48,8 @@ spec:
                   key: MSK_BOOTSTRAP_SERVERS
             - name: TIMELINE_SEED_DEMO_DATA
               value: "false"
+            - name: AWS_REGION
+              value: eu-west-2
+
+            - name: AWS_S3_BUCKET
+              value: linkedin-clone-dev-uploads-160198385987
