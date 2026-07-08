@@ -18,7 +18,7 @@ spec:
         - name: userprofile-service
 
 
-          image: docker.io/shubhratripathi16/userprofile-service:profile-sub-only-20260708
+          image: docker.io/shubhratripathi16/userprofile-service:main-73-aa3a35a24c1f
 
           ports:
             - name: http
