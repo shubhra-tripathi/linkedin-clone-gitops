@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: linkedin-frontend
-          image: docker.io/shubhratripathi16/linkedin-frontend:main-76-7bbde8067303
+          image: docker.io/shubhratripathi16/linkedin-frontend:main-77-9b4a6b723d83
           command:
             - /bin/sh
             - -c
