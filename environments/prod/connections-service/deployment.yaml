@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: connections-service
-          image: docker.io/shubhratripathi16/connections-service:main-72-2f41ec29ddd0
+          image: docker.io/shubhratripathi16/connections-service:main-77-9b4a6b723d83
           imagePullPolicy: Always
           ports:
             - name: http
