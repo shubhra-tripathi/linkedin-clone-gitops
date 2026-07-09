@@ -32,3 +32,7 @@ resources:
   - connections-service/service.yaml
   - schema-registry/deployment.yaml
   - schema-registry/service.yaml
+  - adot-collector/service-account.yaml
+  - adot-collector/configmap.yaml
+  - adot-collector/deployment.yaml
+  - adot-collector/service.yaml

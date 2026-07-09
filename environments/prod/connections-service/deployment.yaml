@@ -30,6 +30,22 @@ spec:
           env:
             - name: SERVER_PORT
               value: "8093"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/opentelemetry/opentelemetry-javaagent.jar"
+            - name: OTEL_SERVICE_NAME
+              value: "connections-service"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://adot-collector:4318"
+            - name: OTEL_TRACES_EXPORTER
+              value: "otlp"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_LOGS_EXPORTER
+              value: "none"
+            - name: OTEL_TRACES_SAMPLER
+              value: "traceidratio"
+            - name: OTEL_TRACES_SAMPLER_ARG
+              value: "0.01"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(CONNECTION_DB_NAME)
             - name: SPRING_DATASOURCE_USERNAME

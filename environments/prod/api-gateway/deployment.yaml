@@ -27,4 +27,20 @@ spec:
             - name: SPRING_APPLICATION_JSON
               value: |
                 {"spring":{"cloud":{"gateway":{"server":{"webflux":{"routes":[{"id":"userprofile-service","uri":"http://userprofile-service:8083","predicates":["Path=/api/profiles,/api/profiles/**,/api/skills,/api/skills/**,/api/educations,/api/educations/**,/api/experiences,/api/experiences/**,/api/languages,/api/languages/**,/api/follows,/api/follows/**"],"filters":["RemoveRequestHeader=Origin"]},{"id":"search-discovery-service","uri":"http://search-service:8086","predicates":["Path=/api/search/**,/api/discovery/**"]},{"id":"trending-service","uri":"http://search-service:8086","predicates":["Path=/api/trending/**"],"filters":["RewritePath=/api/trending/(?<segment>.*), /api/discovery/trending/${segment}"]},{"id":"feed-and-timeline-service","uri":"http://feed-service:8087","predicates":["Path=/api/timeline,/api/timeline/**"],"filters":["RewritePath=/api/timeline$, /api/timeline/"]},{"id":"post-and-timeline-service","uri":"http://post-service:8088","predicates":["Path=/api/posts/**,/api/posts"]},{"id":"jobposting-service","uri":"http://jobposting-service:8091","predicates":["Path=/api/v1/jobs/**"],"filters":["RemoveRequestHeader=Origin"]},{"id":"notification-service-root","uri":"http://notification-service:8090","predicates":["Path=/api/notifications"],"filters":["RewritePath=/api/notifications, /notifications"]},{"id":"notification-service","uri":"http://notification-service:8090","predicates":["Path=/api/notifications/**"],"filters":["RewritePath=/api/notifications/(?<segment>.*), /notifications/${segment}"]},{"id":"connections-service","uri":"http://connections-service:8093","predicates":["Path=/api/v1/connections/**"]}]}}}}}}
+            - name: JAVA_TOOL_OPTIONS
+              value: "-javaagent:/opentelemetry/opentelemetry-javaagent.jar"
+            - name: OTEL_SERVICE_NAME
+              value: "userprofile-service"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://adot-collector:4318"
+            - name: OTEL_TRACES_EXPORTER
+              value: "otlp"
+            - name: OTEL_METRICS_EXPORTER
+              value: "none"
+            - name: OTEL_LOGS_EXPORTER
+              value: "none"
+            - name: OTEL_TRACES_SAMPLER
+              value: "traceidratio"
+            - name: OTEL_TRACES_SAMPLER_ARG
+              value: "0.01"
 
