@@ -32,7 +32,13 @@ resources:
   - connections-service/service.yaml
   - schema-registry/deployment.yaml
   - schema-registry/service.yaml
+  - kafka-topics/job.yaml
   - adot-collector/service-account.yaml
   - adot-collector/configmap.yaml
   - adot-collector/deployment.yaml
   - adot-collector/service.yaml
+  - cloudwatch-logs/namespace.yaml
+  - cloudwatch-logs/service-account.yaml
+  - cloudwatch-logs/rbac.yaml
+  - cloudwatch-logs/configmap.yaml
+  - cloudwatch-logs/daemonset.yaml

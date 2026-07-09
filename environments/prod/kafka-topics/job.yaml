@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kafka-topic-bootstrap
+  namespace: linkedin-prod
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: kafka-topic-bootstrap
+          image: confluentinc/cp-kafka:7.7.1
+          env:
+            - name: BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: linkedin-config
+                  key: MSK_BOOTSTRAP_SERVERS
+          command:
+            - bash
+            - -ec
+            - |
+              create_topic() {
+                local topic="$1"
+                kafka-topics \
+                  --bootstrap-server "${BOOTSTRAP_SERVERS}" \
+                  --create \
+                  --if-not-exists \
+                  --topic "${topic}" \
+                  --partitions 3 \
+                  --replication-factor 2
+              }
+
+              create_topic post.created
+              create_topic post.deleted
+              create_topic post.liked
+              create_topic post.liked.dlt
+              create_topic comment.created
+              create_topic comment.created.dlt
+              create_topic profile.created
+              create_topic profile.updated
+              create_topic profile.deleted
+              create_topic social-follow-events
+              create_topic notifications
+              create_topic job-published-topic
+
+              kafka-topics --bootstrap-server "${BOOTSTRAP_SERVERS}" --list
