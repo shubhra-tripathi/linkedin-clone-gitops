@@ -17,7 +17,7 @@ spec:
       containers:
         - name: post-service
 
-          image: docker.io/shubhratripathi16/post-service:main-79-34478384a3e0
+          image: docker.io/shubhratripathi16/post-service:main-80-abb524b920ae
 
           ports:
             - containerPort: 8088
