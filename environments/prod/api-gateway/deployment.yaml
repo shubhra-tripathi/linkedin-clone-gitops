@@ -30,7 +30,7 @@ spec:
             - name: JAVA_TOOL_OPTIONS
               value: "-javaagent:/opentelemetry/opentelemetry-javaagent.jar"
             - name: OTEL_SERVICE_NAME
-              value: "userprofile-service"
+              value: "api-gateway"
             - name: OTEL_EXPORTER_OTLP_ENDPOINT
               value: "http://adot-collector:4318"
             - name: OTEL_TRACES_EXPORTER
