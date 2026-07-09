@@ -15,6 +15,7 @@ data:
   POST_DB_NAME: postdb
   USERPROFILE_DB_NAME: userprofiledb
   SEARCH_DB_NAME: searchdb
+  SEARCH_SEED_DEMO_DATA: "false"
   CONNECTION_DB_NAME: connectiondb
   JOBPOSTING_DB_NAME: jobpostingdb
   NOTIFICATION_DB_NAME: notificationdb
