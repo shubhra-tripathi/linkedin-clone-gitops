@@ -16,7 +16,7 @@ spec:
       serviceAccountName: media-service-account
       containers:
         - name: feed-service
-          image: docker.io/shubhratripathi16/feed-service:main-84-be7c2e8b3230
+          image: docker.io/shubhratripathi16/feed-service:main-85-f99777f339e4
           ports:
             - containerPort: 8087
           envFrom:
