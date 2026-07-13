@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: linkedin-frontend
-          image: docker.io/shubhratripathi16/linkedin-frontend:network-follow-fix-20260713
+          image: docker.io/shubhratripathi16/linkedin-frontend:main-86-9854c99fbb67
           command:
             - /bin/sh
             - -c
