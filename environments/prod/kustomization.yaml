@@ -35,6 +35,7 @@ resources:
   - kafka-topics/job.yaml
   - monitoring/spring-boot-servicemonitor.yaml
   - monitoring/prometheus-rules.yaml
+  - monitoring/grafana-linkedin-full-stack-dashboard.yaml
   - adot-collector/service-account.yaml
   - adot-collector/configmap.yaml
   - adot-collector/deployment.yaml

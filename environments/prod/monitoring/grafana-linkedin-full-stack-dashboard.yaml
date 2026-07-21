@@ -1,0 +1,463 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-linkedin-full-stack-dashboard
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  linkedin-full-stack-observability.json: |-
+    {
+      "uid": "linkedin-full-stack-observability",
+      "title": "LinkedIn Clone - Full Stack Observability",
+      "tags": ["linkedin-clone", "eks", "spring-boot", "production"],
+      "timezone": "browser",
+      "schemaVersion": 39,
+      "version": 1,
+      "refresh": "30s",
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "templating": {
+        "list": [
+          {
+            "name": "DS_PROMETHEUS",
+            "type": "datasource",
+            "query": "prometheus",
+            "current": {
+              "text": "default",
+              "value": "default"
+            }
+          },
+          {
+            "name": "namespace",
+            "type": "query",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "${DS_PROMETHEUS}"
+            },
+            "query": "label_values(kube_pod_info, namespace)",
+            "current": {
+              "text": "linkedin-prod",
+              "value": "linkedin-prod"
+            },
+            "refresh": 1
+          }
+        ]
+      },
+      "panels": [
+        {
+          "type": "row",
+          "title": "Service Health",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "stat",
+          "title": "Spring Boot Targets Up",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum(up{namespace=\"$namespace\", job=~\".*service.*|api-gateway\"})",
+              "legendFormat": "targets up",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "red", "value": null },
+                  { "color": "green", "value": 7 }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 }
+        },
+        {
+          "type": "timeseries",
+          "title": "HTTP 5xx Errors By Service",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (service) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", status=~\"5..\"}[5m]))",
+              "legendFormat": "{{service}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 18, "x": 6, "y": 1 }
+        },
+        {
+          "type": "row",
+          "title": "Kubernetes",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Pod CPU Usage",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"$namespace\", container!=\"\", image!=\"\"}[5m]))",
+              "legendFormat": "{{pod}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "cores" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Pod Memory Working Set",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (pod) (container_memory_working_set_bytes{namespace=\"$namespace\", container!=\"\", image!=\"\"})",
+              "legendFormat": "{{pod}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "bytes" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 }
+        },
+        {
+          "type": "row",
+          "title": "JVM",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 18 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "JVM Heap Used",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (jvm_memory_used_bytes{namespace=\"$namespace\", area=\"heap\"})",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "bytes" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 0, "y": 19 }
+        },
+        {
+          "type": "timeseries",
+          "title": "JVM Threads",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (jvm_threads_live_threads{namespace=\"$namespace\"})",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "short" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 8, "y": 19 }
+        },
+        {
+          "type": "timeseries",
+          "title": "GC Pause Rate",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (rate(jvm_gc_pause_seconds_count{namespace=\"$namespace\"}[5m]))",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "ops" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 16, "y": 19 }
+        },
+        {
+          "type": "row",
+          "title": "API Gateway",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 27 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Gateway Request Rate",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (uri, status) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", service=\"api-gateway\"}[5m]))",
+              "legendFormat": "{{uri}} {{status}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 28 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Gateway Latency P95",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum by (le, uri) (rate(http_server_requests_seconds_bucket{namespace=\"$namespace\", service=\"api-gateway\"}[5m])))",
+              "legendFormat": "{{uri}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "s" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 28 }
+        },
+        {
+          "type": "row",
+          "title": "Kafka / MSK",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 36 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Kafka Records Consumed",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (rate(kafka_consumer_fetch_manager_records_consumed_total{namespace=\"$namespace\"}[5m]))",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "ops" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 37 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Kafka Producer Record Sends",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (rate(kafka_producer_record_send_total{namespace=\"$namespace\"}[5m]))",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "ops" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 37 }
+        },
+        {
+          "type": "row",
+          "title": "PostgreSQL / RDS",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 45 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Hikari Active Connections",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (hikaricp_connections_active{namespace=\"$namespace\"})",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "short" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 46 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Hikari Pending Connections",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (application) (hikaricp_connections_pending{namespace=\"$namespace\"})",
+              "legendFormat": "{{application}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "short" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 46 }
+        },
+        {
+          "type": "row",
+          "title": "OpenSearch",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 54 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Search Service Request Rate",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (uri, status) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", service=\"search-service\"}[5m]))",
+              "legendFormat": "{{uri}} {{status}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 55 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Search Service 5xx Errors",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (uri) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", service=\"search-service\", status=~\"5..\"}[5m]))",
+              "legendFormat": "{{uri}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 55 }
+        },
+        {
+          "type": "row",
+          "title": "Redis",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 63 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Redis Pod CPU",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$namespace\", pod=~\"redis-.*\", container!=\"\", image!=\"\"}[5m]))",
+              "legendFormat": "redis cpu",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "cores" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 64 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Redis Pod Memory",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum(container_memory_working_set_bytes{namespace=\"$namespace\", pod=~\"redis-.*\", container!=\"\", image!=\"\"})",
+              "legendFormat": "redis memory",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "bytes" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 64 }
+        },
+        {
+          "type": "row",
+          "title": "Business Metrics",
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 72 },
+          "collapsed": false,
+          "panels": []
+        },
+        {
+          "type": "timeseries",
+          "title": "Post / Like / Comment Activity",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (uri, method, status) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", service=\"post-service\", uri!=\"UNKNOWN\"}[5m]))",
+              "legendFormat": "{{method}} {{uri}} {{status}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 0, "y": 73 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Search Activity",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (uri, method, status) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", service=\"search-service\", uri!=\"UNKNOWN\"}[5m]))",
+              "legendFormat": "{{method}} {{uri}} {{status}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 8, "y": 73 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Jobs / Notifications Activity",
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "targets": [
+            {
+              "expr": "sum by (service, uri, status) (rate(http_server_requests_seconds_count{namespace=\"$namespace\", service=~\"jobposting-service|notification-service\", uri!=\"UNKNOWN\"}[5m]))",
+              "legendFormat": "{{service}} {{uri}} {{status}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": { "unit": "reqps" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 16, "y": 73 }
+        }
+      ]
+    }
