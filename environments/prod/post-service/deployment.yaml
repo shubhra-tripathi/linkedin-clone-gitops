@@ -19,7 +19,7 @@ spec:
       containers:
         - name: post-service
 
-          image: docker.io/shubhratripathi16/post-service:db-pool-fix-20260721
+          image: docker.io/shubhratripathi16/post-service:db-pool-metrics-20260721
 
           ports:
             - name: http
