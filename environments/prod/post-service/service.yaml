@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: post-service
   namespace: linkedin-prod
+  labels:
+    app: post-service
 spec:
   selector:
     app: post-service
   ports:
-    - port: 8088
-      targetPort: 8088
+    - name: http
+      port: 8088
+      targetPort: http
   type: ClusterIP

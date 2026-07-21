@@ -19,10 +19,11 @@ spec:
       containers:
         - name: post-service
 
-          image: docker.io/shubhratripathi16/post-service:main-90-2cda62d0fd4e
+          image: docker.io/shubhratripathi16/post-service:db-pool-fix-20260721
 
           ports:
-            - containerPort: 8088
+            - name: http
+              containerPort: 8088
           envFrom:
             - configMapRef:
                 name: linkedin-config
@@ -30,7 +31,13 @@ spec:
                 name: linkedin-secrets
           env:
             - name: POSTGRES_URL
-              value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(POST_DB_NAME)
+              value: jdbc:postgresql://$(RDS_HOST):$(RDS_PORT)/$(POST_DB_NAME)?sslmode=require
+            - name: POSTGRES_POOL_MAX_SIZE
+              value: "2"
+            - name: POSTGRES_POOL_MIN_IDLE
+              value: "0"
+            - name: POSTGRES_POOL_CONNECTION_TIMEOUT
+              value: "30000"
             - name: JAVA_TOOL_OPTIONS
               value: "-javaagent:/opentelemetry/opentelemetry-javaagent.jar"
             - name: OTEL_SERVICE_NAME
@@ -67,3 +74,10 @@ spec:
 
             - name: AWS_S3_BUCKET
               value: linkedin-clone-dev-uploads-160198385987
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi

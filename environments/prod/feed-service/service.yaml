@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: feed-service
   namespace: linkedin-prod
+  labels:
+    app: feed-service
 spec:
   selector:
     app: feed-service
   ports:
-    - port: 8087
-      targetPort: 8087
+    - name: http
+      port: 8087
+      targetPort: http
   type: ClusterIP

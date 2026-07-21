@@ -17,7 +17,8 @@ spec:
         - name: api-gateway
           image: docker.io/shubhratripathi16/api-gateway:main-90-2cda62d0fd4e
           ports:
-            - containerPort: 8085
+            - name: http
+              containerPort: 8085
           envFrom:
             - configMapRef:
                 name: linkedin-config
@@ -43,4 +44,10 @@ spec:
               value: "traceidratio"
             - name: OTEL_TRACES_SAMPLER_ARG
               value: "0.01"
-
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi

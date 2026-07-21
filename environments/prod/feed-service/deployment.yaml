@@ -18,7 +18,8 @@ spec:
         - name: feed-service
           image: docker.io/shubhratripathi16/feed-service:main-90-2cda62d0fd4e
           ports:
-            - containerPort: 8087
+            - name: http
+              containerPort: 8087
           envFrom:
             - configMapRef:
                 name: linkedin-config
@@ -70,3 +71,10 @@ spec:
 
             - name: AWS_S3_BUCKET
               value: linkedin-clone-dev-uploads-160198385987
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi

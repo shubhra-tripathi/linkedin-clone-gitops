@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: userprofile-service
   namespace: linkedin-prod
+  labels:
+    app: userprofile-service
 spec:
   selector:
     app: userprofile-service

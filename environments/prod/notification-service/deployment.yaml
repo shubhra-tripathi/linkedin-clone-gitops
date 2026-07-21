@@ -17,7 +17,7 @@ spec:
         - name: notification-service
 
 
-          image: docker.io/shubhratripathi16/notification-service:main-90-2cda62d0fd4e
+          image: docker.io/shubhratripathi16/notification-service:metrics-20260721
 
           ports:
             - name: http
@@ -72,3 +72,10 @@ spec:
               port: http
             initialDelaySeconds: 40
             periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi

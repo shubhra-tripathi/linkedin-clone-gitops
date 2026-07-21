@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: search-service
   namespace: linkedin-prod
+  labels:
+    app: search-service
 spec:
   selector:
     app: search-service
   ports:
-    - port: 8086
-      targetPort: 8086
+    - name: http
+      port: 8086
+      targetPort: http
   type: ClusterIP

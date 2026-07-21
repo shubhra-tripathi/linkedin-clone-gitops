@@ -17,11 +17,12 @@ spec:
         - name: search-service
           image: docker.io/shubhratripathi16/search-service:main-90-2cda62d0fd4e
           ports:
-            - containerPort: 8086
+            - name: http
+              containerPort: 8086
           readinessProbe:
             httpGet:
               path: /actuator/health
-              port: 8086
+              port: http
             initialDelaySeconds: 20
             periodSeconds: 10
             timeoutSeconds: 3
@@ -29,7 +30,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /actuator/health
-              port: 8086
+              port: http
             initialDelaySeconds: 60
             periodSeconds: 20
             timeoutSeconds: 3
@@ -87,3 +88,10 @@ spec:
 
             - name: SPRING_MAIN_LAZY_INITIALIZATION
               value: "false"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi

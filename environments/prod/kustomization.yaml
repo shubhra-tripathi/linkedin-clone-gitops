@@ -33,6 +33,8 @@ resources:
   - schema-registry/deployment.yaml
   - schema-registry/service.yaml
   - kafka-topics/job.yaml
+  - monitoring/spring-boot-servicemonitor.yaml
+  - monitoring/prometheus-rules.yaml
   - adot-collector/service-account.yaml
   - adot-collector/configmap.yaml
   - adot-collector/deployment.yaml
