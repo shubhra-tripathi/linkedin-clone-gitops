@@ -51,22 +51,28 @@ LinkedIn Clone - Full Stack Observability
 
 ## CI/CD
 
-Jenkins:
+Jenkins is localhost-only. Start a port-forward when you need it:
 
-```text
-http://af0c0b0ddc88741699248ca5be61c644-817734411.eu-west-2.elb.amazonaws.com:8080
+```powershell
+kubectl port-forward -n jenkins svc/jenkins-public 3001:8080
 ```
 
-Jenkins initial admin password:
+Then open:
 
 ```text
-aea0229c64bb42fd920e93132f65a642
+http://localhost:3001
+```
+
+Jenkins demo login:
+
+```text
+admin / admin12345
 ```
 
 ## Demo Notes
 
 - Prometheus is currently public and does not have login protection.
 - Jenkins is deployed with temporary `emptyDir` storage for the demo because EBS PVC provisioning was not working.
+- Jenkins is intentionally not public; use localhost port-forward only.
 - For production, restrict these endpoints using VPN, private ingress, IP allowlists, authentication, or an ALB with HTTPS and access controls.
-- After the presentation, remove or lock down public Prometheus and Jenkins access.
-
+- After the presentation, remove or lock down public Prometheus access.
