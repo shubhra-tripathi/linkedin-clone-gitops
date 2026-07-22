@@ -38,6 +38,13 @@ resources:
   - monitoring/grafana-linkedin-full-stack-dashboard.yaml
   - monitoring/grafana-public-service.yaml
   - monitoring/prometheus-public-service.yaml
+  - monitoring/loki-configmap.yaml
+  - monitoring/loki-deployment.yaml
+  - monitoring/loki-service.yaml
+  - monitoring/promtail-rbac.yaml
+  - monitoring/promtail-configmap.yaml
+  - monitoring/promtail-daemonset.yaml
+  - monitoring/grafana-loki-datasource.yaml
   - jenkins/namespace.yaml
   - jenkins/deployment.yaml
   - jenkins/service.yaml
