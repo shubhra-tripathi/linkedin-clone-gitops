@@ -17,7 +17,7 @@ spec:
         - name: notification-service
 
 
-          image: docker.io/shubhratripathi16/notification-service:swagger-2c30c8f
+          image: docker.io/shubhratripathi16/notification-service:main-95-fb4f12b20073
 
           ports:
             - name: http
