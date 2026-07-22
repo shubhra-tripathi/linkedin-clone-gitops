@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: docker.io/shubhratripathi16/api-gateway:metrics-20260721
+          image: docker.io/shubhratripathi16/api-gateway:main-91-40c1950a0e0f
           ports:
             - name: http
               containerPort: 8085

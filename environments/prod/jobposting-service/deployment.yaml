@@ -17,7 +17,7 @@ spec:
         - name: jobposting-service
 
 
-          image: docker.io/shubhratripathi16/jobposting-service:metrics-20260721
+          image: docker.io/shubhratripathi16/jobposting-service:main-91-40c1950a0e0f
 
           ports:
             - name: http

@@ -19,7 +19,7 @@ spec:
       containers:
         - name: post-service
 
-          image: docker.io/shubhratripathi16/post-service:db-pool-metrics-20260721
+          image: docker.io/shubhratripathi16/post-service:main-91-40c1950a0e0f
 
           ports:
             - name: http
