@@ -24,6 +24,8 @@ resources:
   - jobposting-service/service.yaml
   - notification-service/deployment.yaml
   - notification-service/service.yaml
+  - payment-service/deployment.yaml
+  - payment-service/service.yaml
   - keycloak/deployment.yaml
   - keycloak/service.yaml
   - keycloak/bootstrap-configmap.yaml

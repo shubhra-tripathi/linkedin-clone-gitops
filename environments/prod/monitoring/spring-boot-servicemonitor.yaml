@@ -21,6 +21,7 @@ spec:
           - userprofile-service
           - jobposting-service
           - notification-service
+          - payment-service
   endpoints:
     - port: http
       path: /actuator/prometheus

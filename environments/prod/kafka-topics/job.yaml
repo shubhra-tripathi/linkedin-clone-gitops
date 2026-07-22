@@ -44,5 +44,6 @@ spec:
               create_topic social-follow-events
               create_topic notifications
               create_topic job-published-topic
+              create_topic subscription-events
 
               kafka-topics --bootstrap-server "${BOOTSTRAP_SERVERS}" --list
