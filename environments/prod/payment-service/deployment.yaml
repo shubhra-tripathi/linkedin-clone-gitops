@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: payment-service
-          image: docker.io/shubhratripathi16/payment-service:main-92-64a3b45
+          image: docker.io/shubhratripathi16/payment-service:swagger-79159e0
           imagePullPolicy: Always
           ports:
             - name: http
