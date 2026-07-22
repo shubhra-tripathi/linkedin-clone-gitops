@@ -19,6 +19,13 @@ spec:
         - name: jenkins
           image: jenkins/jenkins:lts-jdk21
           imagePullPolicy: IfNotPresent
+          env:
+            - name: JAVA_OPTS
+              value: "-Djenkins.install.runSetupWizard=false"
+            - name: JENKINS_ADMIN_ID
+              value: "admin"
+            - name: JENKINS_ADMIN_PASSWORD
+              value: "admin12345"
           ports:
             - name: http
               containerPort: 8080
@@ -34,6 +41,11 @@ spec:
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
+            - name: jenkins-admin-init
+              mountPath: /var/jenkins_home/init.groovy.d
       volumes:
         - name: jenkins-home
           emptyDir: {}
+        - name: jenkins-admin-init
+          configMap:
+            name: jenkins-admin-init

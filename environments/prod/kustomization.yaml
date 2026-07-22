@@ -46,6 +46,7 @@ resources:
   - monitoring/promtail-daemonset.yaml
   - monitoring/grafana-loki-datasource.yaml
   - jenkins/namespace.yaml
+  - jenkins/admin-init-configmap.yaml
   - jenkins/deployment.yaml
   - jenkins/service.yaml
   - adot-collector/service-account.yaml
